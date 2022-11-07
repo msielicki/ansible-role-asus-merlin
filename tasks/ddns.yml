@@ -1,0 +1,64 @@
+---
+- name: WAN | DDNS | configure DDNS services
+  nvram:
+    key: "{{ item }}"
+    value: "{{ asus_merlin_ddns_enable | int }}"
+    command: set
+    apply: yes
+  loop:
+    - ASUS_EULA
+    - ddns_enable_x
+    - le_enable
+  notify:
+    - restart ddns
+
+- name: WAN | DDNS | configure DDNS ASUS server
+  nvram:
+    key: "{{ item }}"
+    value: "{{ 'WWW.ASUS.COM' if asus_merlin_ddns_enable else '' }}"
+    command: set
+    apply: yes
+  loop:
+    - ddns_server_x
+    - ddns_server_x_old
+  notify:
+    - restart ddns
+    
+- name: WAN | DDNS | configure DDNS external ip
+  nvram:
+    key: ddns_realip_x
+    value: "{{ asus_merlin_ddns_realip | int }}"
+    command: set
+    apply: yes
+  notify:
+    - restart ddns
+
+- name: WAN | DDNS | configure DDNS refresh interval
+  nvram:
+    key: ddns_refresh_x
+    value: "{{ asus_merlin_ddns_refresh_interval }}"
+    command: set
+    apply: yes
+  notify:
+    - restart ddns
+
+- name: WAN | DDNS | configure DDNS hostname
+  nvram:
+    key: "{{ item }}"
+    value: "{{ asus_merlin_ddns_hostname }}"
+    command: set
+    apply: yes
+  loop:
+    - ddns_hostname_old
+    - ddns_hostname_x
+  notify:
+    - restart ddns
+
+- name: WAN | DDNS | configure LetsEncrypt
+  nvram:
+    key: le_enable
+    value: "{{ asus_merlin_ddns_enable | int }}"
+    command: set
+    apply: yes
+  notify:
+    - restart ddns

@@ -1,0 +1,9 @@
+---
+- name: WAN | DDNS
+  include_tasks: ddns.yml
+
+- name: LAN | SWITCH
+  include_tasks: switch.yml
+
+- name: LAN | DNSMASQ
+  include_tasks: dnsmasq.yml

@@ -1,0 +1,9 @@
+---
+- name: restart dnsmasq
+  raw: service restart_dnsmasq
+
+- name: restart ddns
+  raw: service restart_ddns
+
+- name: reboot
+  raw: reboot

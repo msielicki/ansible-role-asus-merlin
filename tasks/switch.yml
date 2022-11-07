@@ -1,0 +1,18 @@
+---
+- name: LAN | SWITCH | configure jumbo frame
+  nvram:
+    key: jumbo_frame_enable
+    value: "{{ asus_merlin_lan_switch_jumbo | int }}"
+    command: set
+    apply: yes
+  notify:
+    - reboot
+
+- name: LAN | SWITCH | configure spanning tree protocol
+  nvram:
+    key: lan_stp
+    value: "{{ asus_merlin_lan_switch_stp | int }}"
+    command: set
+    apply: yes
+  notify:
+    - reboot

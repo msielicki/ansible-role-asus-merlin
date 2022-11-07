@@ -1,0 +1,25 @@
+---
+asus_merlin_lan_hostname: router-hostname
+asus_merlin_lan_domain: youdomain.local
+asus_merlin_lan_ipaddr: 192.168.50.1
+asus_merlin_lan_netmask: 255.255.255.0
+
+
+### Advanced Settings > WAN > DDNS
+asus_merlin_ddns_enable: false
+# now works only with asus.com ddns provider
+asus_merlin_ddns_hostname: "{{ asus_merlin_lan_hostname +'.asuscomm.com' }}"
+# refresh interval ddns in days
+asus_merlin_ddns_refresh_interval: 21
+# true - external provider ip, false - local wan interface ip
+asus_merlin_ddns_realip: true
+
+
+
+### Advanced Settings > LAN > Switch Control
+# enaable jumbo frame
+asus_merlin_lan_switch_jumbo: false
+# enable spanning tree protocol
+asus_merlin_lan_switch_stp: false
+# bonding for lan interface (not implemented TODO)
+asus_merlin_lan_switch_bond: false
