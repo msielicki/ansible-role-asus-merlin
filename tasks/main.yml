@@ -1,9 +1,12 @@
 ---
 - name: WAN | DDNS
-  include_tasks: ddns.yml
+  include_tasks: wan/ddns.yml
 
-- name: LAN | SWITCH
-  include_tasks: switch.yml
+- name: LAN
+  import_tasks: lan/main.yml
 
 - name: LAN | DNSMASQ
   include_tasks: dnsmasq.yml
+
+- name: FIREWALL | GENERAL
+  include_tasks: firewall/general.yml

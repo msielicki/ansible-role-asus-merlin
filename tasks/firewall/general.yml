@@ -1,0 +1,9 @@
+---
+- name: FIREWALL | GENERAL | firewall ipv6
+  nvram:
+    key: ipv6_fw_enable
+    value: "{{ asus_merlin_firewall_enable_ipv6 | int }}"
+    command: set
+  notify:
+    - nvram commit
+    - restart firewall

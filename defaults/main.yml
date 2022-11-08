@@ -23,3 +23,9 @@ asus_merlin_lan_switch_jumbo: false
 asus_merlin_lan_switch_stp: false
 # bonding for lan interface (not implemented TODO)
 asus_merlin_lan_switch_bond: false
+
+
+
+### Advanced Settings > Firewall
+# enable firewall IPv6
+asus_merlin_firewall_enable_ipv6: true

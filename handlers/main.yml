@@ -1,9 +1,22 @@
 ---
-- name: restart dnsmasq
-  raw: service restart_dnsmasq
+- name: nvram commit
+  nvram:
+    command: commit
 
 - name: restart ddns
   raw: service restart_ddns
+
+- name: restart dnsmasq
+  raw: service restart_dnsmasq
+
+- name: restart firewall
+  raw: service restart_firewall
+
+- name: restart httpd
+  raw: service restart_httpd
+
+- name: restart wireless
+  raw: service restart_wireless
 
 - name: reboot
   raw: reboot
