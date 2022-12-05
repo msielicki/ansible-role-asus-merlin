@@ -2,7 +2,7 @@
 - name: WAN | DDNS | configure DDNS services
   nvram:
     key: "{{ item }}"
-    value: "{{ asus_merlin_ddns_enable | int }}"
+    value: "{{ asus_merlin_wan_ddns_enable | int }}"
     command: set
   loop:
     - ASUS_EULA
@@ -15,7 +15,7 @@
 - name: WAN | DDNS | configure DDNS ASUS server
   nvram:
     key: "{{ item }}"
-    value: "{{ 'WWW.ASUS.COM' if asus_merlin_ddns_enable else '' }}"
+    value: "{{ 'WWW.ASUS.COM' if asus_merlin_wan_ddns_enable else '' }}"
     command: set
   loop:
     - ddns_server_x
@@ -24,19 +24,19 @@
     - nvram commit
     - restart ddns
     
-- name: WAN | DDNS | configure DDNS external ip
-  nvram:
-    key: ddns_realip_x
-    value: "{{ asus_merlin_ddns_realip | int }}"
-    command: set
-  notify:
-    - nvram commit  
-    - restart ddns
+# - name: WAN | DDNS | configure DDNS external ip
+#   nvram:
+#     key: ddns_realip_x
+#     value: "{{ asus_merlin_wan_ddns_realip | int }}"
+#     command: set
+#   notify:
+#     - nvram commit  
+#     - restart ddns
 
 - name: WAN | DDNS | configure DDNS refresh interval
   nvram:
     key: ddns_refresh_x
-    value: "{{ asus_merlin_ddns_refresh_interval }}"
+    value: "{{ asus_merlin_wan_ddns_refresh_interval }}"
     command: set
   notify:
     - nvram commit
@@ -45,7 +45,7 @@
 - name: WAN | DDNS | configure DDNS hostname
   nvram:
     key: "{{ item }}"
-    value: "{{ asus_merlin_ddns_hostname }}"
+    value: "{{ asus_merlin_wan_ddns_hostname }}"
     command: set
   loop:
     - ddns_hostname_old
@@ -57,8 +57,9 @@
 - name: WAN | DDNS | configure LetsEncrypt
   nvram:
     key: le_enable
-    value: "{{ asus_merlin_ddns_enable | int }}"
+    value: "{{ asus_merlin_wan_ddns_enable | int }}"
     command: set
   notify:
     - nvram commit
     - restart ddns
+    - restart letsencrypt

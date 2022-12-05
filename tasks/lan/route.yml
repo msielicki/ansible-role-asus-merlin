@@ -1,0 +1,26 @@
+---
+- name: LAN | ROUTE | configure static routes
+  nvram:
+    key: sr_enable_x
+    value: "{{ asus_merlin_lan_route_enable | int }}"
+    command: set
+  notify:
+    - nvram commit
+    - reboot
+
+- name: LAN | ROUTE | prepare rules
+  ansible.builtin.set_fact:
+    prepared_rulelist: "{{ prepared_rulelist | default([]) + [rule] }}"
+  vars:
+    rule: "<{{ item.network }}>{{ item.netmask }}>{{ item.gateway }}>{{ item.metric }}>{{ item.interface }}"
+  loop: "{{ asus_merlin_lan_route_rules | default([]) }}"
+
+
+- name: LAN | ROUTE | configure rules
+  nvram:
+    key: sr_rulelist
+    value: "{{ ( prepared_rulelist if prepared_rulelist is defined else [] ) | join('') }}"
+    command: set
+  notify:
+    - nvram commit
+    - reboot

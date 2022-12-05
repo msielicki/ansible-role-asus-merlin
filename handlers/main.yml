@@ -4,19 +4,37 @@
     command: commit
 
 - name: restart ddns
-  raw: service restart_ddns
+  ansible.builtin.raw: service restart_ddns
 
 - name: restart dnsmasq
-  raw: service restart_dnsmasq
+  ansible.builtin.raw: service restart_dnsmasq
 
 - name: restart firewall
-  raw: service restart_firewall
+  ansible.builtin.raw: service restart_firewall
 
 - name: restart httpd
-  raw: service restart_httpd
+  ansible.builtin.raw: service restart_httpd
+
+- name: restart letsencrypt
+  ansible.builtin.raw: service restart_letsencrypt
 
 - name: restart wireless
-  raw: service restart_wireless
+  ansible.builtin.raw: service restart_wireless
 
 - name: reboot
-  raw: reboot
+  ansible.builtin.raw: reboot
+
+
+
+
+# restart_cstats
+# restart_dualwan
+# restart_fanctrl
+# restart_fbwifi
+# restart_fbwifi_register
+# restart_iptrestore
+# restart_mdns
+# restart_nas_services
+# restart_rstats
+# restart_upnp
+# restart_wan_line

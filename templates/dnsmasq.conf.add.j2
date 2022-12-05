@@ -1,5 +1,13 @@
 # {{ ansible_managed }}
-{% if asus_merlin_ddns_enable %}
+
+{% if asus_merlin_wan_ddns_enable %}
 # DDNS enabled
-address=/{{ asus_merlin_ddns_hostname }}/{{ asus_merlin_lan_ipaddr }}
+address=/{{ asus_merlin_wan_ddns_hostname }}/{{ asus_merlin_lan_ipaddr }}
 {% endif %}
+
+{% for static in asus_merlin_lan_dhcp_staticlist %}
+{% if 'dns_names' in static %}
+# {{ static.get('hostname', 'mac_address') }}
+address=/{{ static.dns_names | join('/') }}/{{ static.ip_address }}
+{% endif %}
+{% endfor %}

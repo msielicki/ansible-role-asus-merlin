@@ -12,3 +12,11 @@ opkg install python3
 opkg install openssh-sftp-server
  ```
  
+
+
+ LINKS:
+
+ https://git.todevski.com/ansible/roles/asus-merlin
+ https://github.com/archf/ansible-openwrt
+ https://github.com/Diesel-Net/rt-ax88u
+ 

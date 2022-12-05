@@ -1,23 +1,69 @@
 ---
+### Advanced Settings > WAN > DDNS
+asus_merlin_wan_ddns_enable: false
+# now works only with asus.com ddns provider
+asus_merlin_wan_ddns_hostname: "{{ asus_merlin_lan_hostname +'.asuscomm.com' }}"
+# refresh interval ddns in days
+asus_merlin_wan_ddns_refresh_interval: 21
+# true - external provider ip, false - local wan interface ip
+asus_merlin_wan_ddns_realip: true
+
+
+### Advanced Settings > LAN > LAN IP
 asus_merlin_lan_hostname: router-hostname
 asus_merlin_lan_domain: youdomain.local
 asus_merlin_lan_ipaddr: 192.168.50.1
 asus_merlin_lan_netmask: 255.255.255.0
 
+### Advanced Settings > LAN > DHCP Server
+asus_merlin_lan_dhcp_enable: true
+asus_merlin_lan_dhcp_pool_start: 192.168.50.2
+asus_merlin_lan_dhcp_pool_end: 192.168.50.254
+asus_merlin_lan_dhcp_lease: 86400
+asus_merlin_lan_dhcp_gateway: "{{ asus_merlin_lan_ipaddr }}"
 
-### Advanced Settings > WAN > DDNS
-asus_merlin_ddns_enable: false
-# now works only with asus.com ddns provider
-asus_merlin_ddns_hostname: "{{ asus_merlin_lan_hostname +'.asuscomm.com' }}"
-# refresh interval ddns in days
-asus_merlin_ddns_refresh_interval: 21
-# true - external provider ip, false - local wan interface ip
-asus_merlin_ddns_realip: true
+asus_merlin_lan_dhcp_dns1: ''
+asus_merlin_lan_dhcp_dns2: ''
+asus_merlin_lan_dhcp_dns_router: true
+asus_merlin_lan_dhcp_wins: ''
+
+asus_merlin_lan_dhcp_static_enable: false
+asus_merlin_lan_dhcp_staticlist: []
+# asus_merlin_lan_dhcp_staticlist: 
+#   - mac_address: AC:67:12:02:5D:32
+#     ip_address: 192.168.50.10
+#     # optional
+#     hostname: mynotebook 
+#     dns_server: 
+#     dns_names: []
+#     description:
+#     icon: 
 
 
+
+
+
+### Advanced Settings > LAN > DNS Director
+
+### Advanced Settings > LAN > Route
+# enable static routes
+asus_merlin_lan_route_enable: false
+# static routes list
+asus_merlin_lan_route_rules: []
+# asus_merlin_lan_route_rules: 
+#   - network: 192.168.201.0
+#     netmask: 255.255.255.0
+#     gateway: 172.20.1.10
+#     metric: 1
+#     interface: LAN
+#   - network: 192.167.201.0
+#     netmask: 255.255.255.0
+#     gateway: 8.8.8.4
+#     metric: 2
+#     interface: WAN
 
 ### Advanced Settings > LAN > Switch Control
-# enaable jumbo frame
+# enable jumbo frame
 asus_merlin_lan_switch_jumbo: false
 # enable spanning tree protocol
 asus_merlin_lan_switch_stp: false

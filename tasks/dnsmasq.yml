@@ -1,9 +1,0 @@
----
-- name: LAN | DNSMASQ | custom dnsmasq.conf.add
-  ansible.builtin.template:
-    src: dnsmasq.conf.add.j2
-    dest: /jffs/configs/dnsmasq.conf.add
-    group: root
-    mode: '0664'
-  notify:
-    - restart dnsmasq

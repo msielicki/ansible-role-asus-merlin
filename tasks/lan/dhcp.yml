@@ -1,0 +1,68 @@
+---
+- name: LAN | DHCP | configure dhcp server
+  nvram:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    command: set
+  loop:
+    - key: dhcp_enable_x
+      value: "{{ asus_merlin_lan_dhcp_enable | int }}"
+    - key: dhcp_start
+      value: "{{ asus_merlin_lan_dhcp_pool_start }}"
+    - key: dhcp_end
+      value: "{{ asus_merlin_lan_dhcp_pool_end }}"
+    - key: dhcp_lease
+      value: "{{ asus_merlin_lan_dhcp_lease }}"
+    - key: dhcp_gateway_x
+      value: "{{ asus_merlin_lan_dhcp_gateway }}"
+    - key: dhcp_dns1_x
+      value: "{{ asus_merlin_lan_dhcp_dns1 }}"
+    - key: dhcp_dns2_x
+      value: "{{ asus_merlin_lan_dhcp_dns2 }}"
+    - key: dhcp_wins_x
+      value: "{{ asus_merlin_lan_dhcp_wins }}"
+    - key: dhcpd_dns_router
+      value: "{{ asus_merlin_lan_dhcp_dns_router }}"
+  notify:
+    - nvram commit
+    - restart dnsmasq
+
+- name: LAN | DHCP | prepare static list
+  ansible.builtin.set_fact:
+    prepared_staticlist: "{{ prepared_staticlist | default([]) + [row] }}"
+  vars:
+    mac: "{{ item.mac_address }}"
+    ip: "{{ item.ip_address }}"
+    dns: "{{ item.dns_server | default('') }}"
+    host: "{{ item.hostname | default('') }}"
+    row: "<{{ mac }}>{{ ip}}>{{ dns }}>{{ host }}"
+  loop: "{{ asus_merlin_lan_dhcp_staticlist | default([]) }}"
+
+- name: LAN | DHCP | configure static list
+  nvram:
+    key: dhcp_staticlist
+    value: "{{ ( prepared_staticlist if prepared_staticlist is defined else [] ) | join('') }}"
+    command: set
+  notify:
+    - nvram commit
+    - restart dnsmasq
+
+- name: LAN | DHCP | custom dnsmasq.conf.add
+  ansible.builtin.template:
+    src: dnsmasq.conf.add.j2
+    dest: /jffs/configs/dnsmasq.conf.add
+    group: root
+    mode: '0664'
+  notify:
+    - restart dnsmasq
+
+- name: LAN | DHCP | prepare custom_clientlist
+  ansible.builtin.set_fact:
+    prepared_custom_clientlist: "{{ prepared_custom_clientlist | default([]) + [row] }}"
+  vars:
+    mac: "{{ item.mac_address }}"
+    ip: "{{ item.ip_address }}"
+    dns: "{{ item.dns_server | default('') }}"
+    host: "{{ item.hostname | default('') }}"
+    row: "<{{ mac }}>{{ ip}}>{{ dns }}>{{ host }}"
+  loop: "{{ asus_merlin_lan_dhcp_staticlist | default([]) }}"

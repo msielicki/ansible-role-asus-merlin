@@ -1,0 +1,10 @@
+---
+- name: LAN | DHCP
+  ansible.builtin.include_tasks: dhcp.yml  
+
+- name: LAN | ROUTE
+  ansible.builtin.include_tasks: route.yml  
+
+- name: LAN | SWITCH
+  ansible.builtin.include_tasks: switch.yml
+  

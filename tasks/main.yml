@@ -1,12 +1,9 @@
 ---
 - name: WAN | DDNS
-  include_tasks: wan/ddns.yml
+  ansible.builtin.include_tasks: wan/ddns.yml
 
 - name: LAN
-  import_tasks: lan/main.yml
-
-- name: LAN | DNSMASQ
-  include_tasks: dnsmasq.yml
+  ansible.builtin.include_tasks: lan/main.yml
 
 - name: FIREWALL | GENERAL
-  include_tasks: firewall/general.yml
+  ansible.builtin.include_tasks: firewall/general.yml
