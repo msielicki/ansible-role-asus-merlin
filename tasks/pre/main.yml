@@ -1,6 +1,7 @@
 ---
 - name: PRE | read current version
   ansible.builtin.shell: cat /rom/etc/motd
+  changed_when: false
   register: output_current_version
 
 - name: PRE | current version
