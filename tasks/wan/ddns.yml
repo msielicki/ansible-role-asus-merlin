@@ -23,16 +23,16 @@
   notify:
     - nvram commit
     - restart ddns
-    
+
 - name: WAN | DDNS | configure DDNS external ip
   nvram:
     key: ddns_realip_x
     value: "{{ asus_merlin_wan_ddns_realip | int }}"
     command: set
-  when: 
+  when:
     - asus_firmware_version < '388.1_0'
   notify:
-    - nvram commit  
+    - nvram commit
     - restart ddns
 
 - name: WAN | DDNS | configure DDNS refresh interval

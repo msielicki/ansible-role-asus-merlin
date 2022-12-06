@@ -35,7 +35,7 @@
     ip: "{{ item.ip_address }}"
     dns: "{{ item.dns_server | default('') }}"
     host: "{{ item.hostname | default('') }}"
-    row: "<{{ mac }}>{{ ip}}>{{ dns }}>{{ host }}"
+    row: "<{{ mac }}>{{ ip }}>{{ dns }}>{{ host }}"
   loop: "{{ asus_merlin_lan_dhcp_staticlist | default([]) }}"
 
 - name: LAN | DHCP | configure static list
@@ -56,6 +56,17 @@
   notify:
     - restart dnsmasq
 
+- name: LAN | DHCP | read custom_clientlist
+  nvram:
+    key: custom_clientlist
+    command: get
+  register: output_custom_clientlist
+
+- name: debuging
+  ansible.builtin.debug:
+    msg: "{{ item.split('>') }}"
+  loop: "{{ output_custom_clientlist.value.split('<') }}"
+
 - name: LAN | DHCP | prepare custom_clientlist
   ansible.builtin.set_fact:
     prepared_custom_clientlist: "{{ prepared_custom_clientlist | default([]) + [row] }}"
@@ -64,5 +75,6 @@
     ip: "{{ item.ip_address }}"
     dns: "{{ item.dns_server | default('') }}"
     host: "{{ item.hostname | default('') }}"
-    row: "<{{ mac }}>{{ ip}}>{{ dns }}>{{ host }}"
+    row: "<{{ mac }}>{{ ip }}>{{ dns }}>{{ host }}"
   loop: "{{ asus_merlin_lan_dhcp_staticlist | default([]) }}"
+  when: false

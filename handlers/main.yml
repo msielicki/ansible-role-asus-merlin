@@ -24,9 +24,6 @@
 - name: reboot
   ansible.builtin.raw: reboot
 
-
-
-
 # restart_cstats
 # restart_dualwan
 # restart_fanctrl

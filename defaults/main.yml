@@ -29,19 +29,15 @@ asus_merlin_lan_dhcp_wins: ''
 
 asus_merlin_lan_dhcp_static_enable: false
 asus_merlin_lan_dhcp_staticlist: []
-# asus_merlin_lan_dhcp_staticlist: 
+# asus_merlin_lan_dhcp_staticlist:
 #   - mac_address: AC:67:12:02:5D:32
 #     ip_address: 192.168.50.10
 #     # optional
-#     hostname: mynotebook 
-#     dns_server: 
+#     hostname: mynotebook
+#     dns_server:
 #     dns_names: []
 #     description:
-#     icon: 
-
-
-
-
+#     icon:
 
 ### Advanced Settings > LAN > DNS Director
 
@@ -50,7 +46,7 @@ asus_merlin_lan_dhcp_staticlist: []
 asus_merlin_lan_route_enable: false
 # static routes list
 asus_merlin_lan_route_rules: []
-# asus_merlin_lan_route_rules: 
+# asus_merlin_lan_route_rules:
 #   - network: 192.168.201.0
 #     netmask: 255.255.255.0
 #     gateway: 172.20.1.10
@@ -69,7 +65,6 @@ asus_merlin_lan_switch_jumbo: false
 asus_merlin_lan_switch_stp: false
 # bonding for lan interface (not implemented TODO)
 asus_merlin_lan_switch_bond: false
-
 
 
 ### Advanced Settings > Firewall

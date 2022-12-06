@@ -1,6 +1,6 @@
 ---
 - name: PRE | read current version
-  ansible.builtin.shell: cat /rom/etc/motd
+  ansible.builtin.command: cat /rom/etc/motd
   changed_when: false
   register: output_current_version
 
@@ -14,21 +14,21 @@
 
 - name: PRE | Asus router model check
   ansible.builtin.assert:
-    that: 
+    that:
       - asus_firmware_model in ('RT-AX88U')
     fail_msg: "Role not tested on this router model: {{ asus_firmware_model }}"
-    success_msg: "ASUS router {{ asus_firmware_model}} detected" 
+    success_msg: "ASUS router {{ asus_firmware_model }} detected"
 
 - name: PRE | Asus Merlin firmware check
   ansible.builtin.assert:
-    that: 
+    that:
       - asus_firmware_name == 'ASUSWRT-Merlin'
     fail_msg: "ASUS Merlin firmware is not installed"
-    success_msg: "ASUSWRT-Merlin firmware detected" 
+    success_msg: "ASUSWRT-Merlin firmware detected"
 
 - name: PRE | Asus Merlin firmware version check
   ansible.builtin.assert:
-    that: 
+    that:
       - asus_firmware_version > '386.0_0'
     fail_msg: "ASUS Merlin version firmware is too old"
     success_msg: "ASUSWRT-Merlin firmware version {{ asus_firmware_version }} detected"
