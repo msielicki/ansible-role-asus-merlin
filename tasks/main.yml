@@ -1,4 +1,7 @@
 ---
+- name: PRE
+  ansible.builtin.include_tasks: pre/main.yml
+
 - name: WAN | DDNS
   ansible.builtin.include_tasks: wan/ddns.yml
 
