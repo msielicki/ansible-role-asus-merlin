@@ -29,13 +29,15 @@
 
 - name: LAN | DHCP | prepare static list
   ansible.builtin.set_fact:
-    prepared_staticlist: "{{ prepared_staticlist | default([]) + [row] }}"
+    prepared_staticlist: "{{ prepared_staticlist | default([]) + [row_for_list] }}"
+    inventory_clientlist: "{{ inventory_clientlist | default({}) | combine(row_for_dict) }}"
   vars:
-    mac: "{{ item.mac_address }}"
-    ip: "{{ item.ip_address }}"
-    dns: "{{ item.dns_server | default('') }}"
-    host: "{{ item.hostname | default('') }}"
-    row: "<{{ mac }}>{{ ip }}>{{ dns }}>{{ host }}"
+    mac_address: "{{ item.mac_address | upper }}"
+    ip_address: "{{ item.ip_address }}"
+    dns_server: "{{ item.dns_server | default('') }}"
+    hostname: "{{ item.hostname | default('') }}"
+    row_for_list: "<{{ mac_address }}>{{ ip_address }}>{{ dns_server }}>{{ hostname }}"
+    row_for_dict: "{{ {mac_address: item} }}"
   loop: "{{ asus_merlin_lan_dhcp_staticlist | default([]) }}"
 
 - name: LAN | DHCP | configure static list
@@ -56,25 +58,42 @@
   notify:
     - restart dnsmasq
 
-- name: LAN | DHCP | read custom_clientlist
+- name: LAN | DHCP | read custom clientlist
   nvram:
     key: custom_clientlist
     command: get
   register: output_custom_clientlist
 
-- name: debuging
-  ansible.builtin.debug:
-    msg: "{{ item.split('>') }}"
-  loop: "{{ output_custom_clientlist.value.split('<') }}"
-
-- name: LAN | DHCP | prepare custom_clientlist
+- name: LAN | DHCP | current custom clientlist
   ansible.builtin.set_fact:
-    prepared_custom_clientlist: "{{ prepared_custom_clientlist | default([]) + [row] }}"
+    current_clientlist: "{{ current_clientlist | default({}) | combine(row) }}"
   vars:
-    mac: "{{ item.mac_address }}"
-    ip: "{{ item.ip_address }}"
-    dns: "{{ item.dns_server | default('') }}"
-    host: "{{ item.hostname | default('') }}"
-    row: "<{{ mac }}>{{ ip }}>{{ dns }}>{{ host }}"
-  loop: "{{ asus_merlin_lan_dhcp_staticlist | default([]) }}"
-  when: false
+    splitted: "{{ item.split('>') }}"
+    name: "{{ splitted.0 }}"
+    mac_address: "{{ splitted.1 | upper }}"
+    icon: "{{ splitted.3 }}"
+    data: "{{ {'mac_address': mac_address, 'name': name, 'icon': icon} }}"
+    row: "{{ {mac_address: data} }}"
+  loop: "{{ output_custom_clientlist.value.split('<') }}"
+  when: item
+
+- name: LAN | DHCP | prepare new custom clientlist
+  ansible.builtin.set_fact:
+    custom_clientlist_new: "{{ custom_clientlist_new | default([]) + [row] }}"
+  vars:
+    current_item: "{{ current_clientlist[item] | default({}) }}"
+    inventory_item: "{{ inventory_clientlist[item] | default({}) }}"
+    data: "{{ current_item | combine(inventory_item) }}"
+    description: "{{ data.description | default(data.name) }}"
+    row: "<{{ description }}>{{ data.mac_address }}>0>{{ data.icon }}>>"
+  loop: "{{ current_clientlist | default({}) | combine(inventory_clientlist | default({}) ) | list }}"
+  when:
+    - "'icon' in data"
+
+- name: LAN | DHCP | configure custom clientlist
+  nvram:
+    key: custom_clientlist
+    value: "{{ custom_clientlist_new | join('') }}"
+    command: set
+  notify:
+    - nvram commit

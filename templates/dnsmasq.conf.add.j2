@@ -5,6 +5,7 @@
 address=/{{ asus_merlin_wan_ddns_hostname }}/{{ asus_merlin_lan_ipaddr }}
 {% endif %}
 
+# DNS static rules 
 {% for static in asus_merlin_lan_dhcp_staticlist %}
 {% if 'dns_names' in static %}
 # {{ static.get('hostname', 'mac_address') }}
