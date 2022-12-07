@@ -39,6 +39,12 @@ asus_merlin_lan_dhcp_staticlist: []
 #     description:
 #     icon:
 
+asus_merlin_lan_dhcp_custom_dns: []
+#asus_merlin_lan_dhcp_custom_dns:
+#   - ip_address: 192.168.50.10
+#     dns_names: []
+
+
 ### Advanced Settings > LAN > DNS Director
 
 ### Advanced Settings > LAN > Route
