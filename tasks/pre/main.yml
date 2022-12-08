@@ -15,7 +15,7 @@
 - name: PRE | Asus router model check
   ansible.builtin.assert:
     that:
-      - asus_firmware_model in ('RT-AX88U')
+      - asus_firmware_model in asus_supported_router_models
     fail_msg: "Role not tested on this router model: {{ asus_firmware_model }}"
     success_msg: "ASUS router {{ asus_firmware_model }} detected"
 
@@ -29,6 +29,6 @@
 - name: PRE | Asus Merlin firmware version check
   ansible.builtin.assert:
     that:
-      - asus_firmware_version > '386.0_0'
+      - asus_firmware_version > asus_supported_firmware_version
     fail_msg: "ASUS Merlin version firmware is too old"
     success_msg: "ASUSWRT-Merlin firmware version {{ asus_firmware_version }} detected"

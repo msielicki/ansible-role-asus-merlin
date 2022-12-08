@@ -1,1 +1,5 @@
 ---
+asus_supported_router_models:
+  - RT-AX88U
+
+asus_supported_firmware_version: '386.0_0'
