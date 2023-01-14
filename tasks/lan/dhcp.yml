@@ -84,8 +84,8 @@
     current_item: "{{ current_clientlist[item] | default({}) }}"
     inventory_item: "{{ inventory_clientlist[item] | default({}) }}"
     data: "{{ current_item | combine(inventory_item) }}"
-    description: "{{ data.description | default(data.name) }}"
-    row: "<{{ description }}>{{ data.mac_address }}>0>{{ data.icon }}>>"
+    description: "{{ data.description | default( data.hostname | default(data.name) ) }}"
+    row: "<{{ description }}>{{ data.mac_address }}>0>{{ data.icon | default(69) }}>>"
   loop: "{{ current_clientlist | default({}) | combine(inventory_clientlist | default({}) ) | list }}"
   when:
     - "'icon' in data"
